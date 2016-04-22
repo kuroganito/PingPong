@@ -1,0 +1,14 @@
+{
+  "name": "pingpong",
+  "version": "1.0.0",
+  "description": "Ping pong online game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^1.4.5"
+  }
+}
