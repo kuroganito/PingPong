@@ -1,12 +1,31 @@
 //Create the renderer
 var socket = io.connect('http://localhost:3000');
 
+socket.on("move-y",function(data){
+  setVelocity(player1,data);
+})
+
 var Graphics = PIXI.Graphics;
 var renderer = PIXI.autoDetectRenderer(800, 600);
 document.body.appendChild(renderer.view);
+var stageInit = new PIXI.Container();
+
 var stage = new PIXI.Container();
 var setup,play;
 var player1 = new Graphics(),player2 = new Graphics();
+
+/*init();
+
+
+function init(){
+  var message = new Text(
+    "Hello Pixi!",
+    {font: "32px sans-serif", fill: "white"}
+  );
+
+  message.position.set(54, 96);
+  stage.addChild(message);
+}*/
 
 setup(player1);
 
@@ -33,24 +52,21 @@ function setup(actualPlayer){
   var   up = keyboard(38),
       down = keyboard(40);
   up.press = function(){
-    socket.emit('move-y', -10);
     setVelocity(actualPlayer,-10);
-
+    socket.emit('move-y', -10);
   }
   up.release = function(){
+    setVelocity(actualPlayer,0);
     socket.emit('move-y', 0);
-      setVelocity(actualPlayer,0);
   }
   down.press = function(){
-    socket.emit('move-y', 10);
     setVelocity(actualPlayer,10);
-
+    socket.emit('move-y', 10);
   }
   down.release = function(){
-    socket.emit('move-y', 0);
     setVelocity(actualPlayer,0);
+    socket.emit('move-y', 0);
   }
-
   gameLoop();
 }
 

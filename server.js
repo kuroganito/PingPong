@@ -1,7 +1,7 @@
 
 var express = require('express');
 var app = express();
-
+var localSockets = [];
 
 app.use(express.static('public'));
 
@@ -12,10 +12,15 @@ var io = require('socket.io')(
 );
 
 io.on('connection', function (socket) {
+  localSockets.push(socket);
 
-  console.log(io.sockets.sockets)
-  /*socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });*/
+  socket.on('move-y', function (data) {
+    var self = this;
+    localSockets.forEach(function(s){
+      if(s!==self){
+        s.emit("move-y",data);
+      }
+    })
+
+  });
 });
